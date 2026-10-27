@@ -1,1 +1,0 @@
-V4.8: auto-advance every 4 seconds (formerly 5); removed pause/resume text button; slightly enlarged carousel cards and previews; subtle hover/focus/touch visual emphasis; retains pause-on-hover and reduced-motion behavior.
