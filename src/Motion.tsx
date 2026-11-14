@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 
-/** Native scrolling with progressive, once-only reveals for static and filtered cards. */
+/** Native scrolling with progressive, replayable reveals for static and filtered cards. */
 export default function Motion({ reduced }: { reduced: boolean }) {
   useEffect(() => {
     if (reduced || !('IntersectionObserver' in window)) return;
@@ -11,7 +11,8 @@ export default function Motion({ reduced }: { reduced: boolean }) {
       for (const entry of entries) {
         if (entry.isIntersecting) {
           entry.target.classList.add('motion-visible');
-          observer.unobserve(entry.target);
+        } else if (entry.boundingClientRect.top > window.innerHeight) {
+          entry.target.classList.remove('motion-visible');
         }
       }
     }, { threshold: 0.06, rootMargin: '0px 0px -24px 0px' });
@@ -21,7 +22,7 @@ export default function Motion({ reduced }: { reduced: boolean }) {
         if (seen.has(node)) return;
         seen.add(node);
         const box = node.getBoundingClientRect();
-        node.style.setProperty('--reveal-delay', `${(index % 3) * 65}ms`);
+        node.style.setProperty('--reveal-delay', `${(index % 3) * 100}ms`);
         node.classList.add('motion-item');
         if (box.top < window.innerHeight && box.bottom > 0) node.classList.add('motion-visible');
         else observer.observe(node);
